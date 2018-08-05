@@ -10,6 +10,10 @@
   set_fact:
     from_vpc_id: "{{ from_vpc_facts.vpcs[0].id }}"
 
+- name: Set from VPC CIDR in fact
+  set_fact:
+    from_vpc_cidr: "{{ from_vpc_facts.vpcs[0].cidr_block }}"
+
 - name: Get to VPC id
   ec2_vpc_net_facts:
     region: "{{ region }}"
@@ -17,9 +21,13 @@
       "tag:Name" : "{{ to_vpc }}"
   register: to_vpc_facts
 
-- name: Set from VPC id in fact
+- name: Set to VPC id in fact
   set_fact:
     to_vpc_id: "{{ to_vpc_facts.vpcs[0].id }}"
+
+- name: Set to VPC CIDR in fact
+  set_fact:
+    to_vpc_cidr: "{{ to_vpc_facts.vpcs[0].cidr_block }}"
 
 - name: Create a local account VPC peering
   ec2_vpc_peer:

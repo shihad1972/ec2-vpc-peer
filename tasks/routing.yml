@@ -7,4 +7,41 @@
       vpc_id: "{{ from_vpc_id }}"
   register: from_ec2_table
 
-- debug: var=from_ec2_table
+- name: Set from VPC route table ID's in fact
+  set_fact:
+    from_rt_ids: "{{ from_ec2_table.route_tables|map(attribute='id')|list }}"
+
+- name: Update from VPC route tables
+  ec2_vpc_route_table:
+    vpc_id: "{{ from_vpc_id }}"
+    lookup: id
+    route_table_id: "{{ item }}"
+    region: "{{ region }}"
+    purge_subnets: false
+    purge_routes: false
+    routes:
+      - dest: "{{ to_vpc_cidr }}"
+        gateway_id: "{{ vpc_peer.peering_id }}"
+
+- name: Get route tables for to VPC
+  ec2_vpc_route_table_facts:
+    region: "{{ region }}"
+    filters:
+      vpc_id: "{{ to_vpc_id }}"
+  register: to_ec2_table
+
+- name: Set to VPC route table ID's in fact
+  set_fact:
+    to_rt_ids: "{{ to_ec2_table.route_tables|map(attribute='id')|list }}"
+
+- name: Update to VPC route tables
+  ec2_vpc_route_table:
+    vpc_id: "{{ to_vpc_id }}"
+    lookup: id
+    route_table_id: "{{ item }}"
+    region: "{{ region }}"
+    purge_subnets: false
+    purge_routes: false
+    routes:
+      - dest: "{{ from_vpc_cidr }}"
+        gateway_id: "{{ vpc_peer.peering_id }}"
