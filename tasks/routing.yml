@@ -22,6 +22,7 @@
     routes:
       - dest: "{{ to_vpc_cidr }}"
         gateway_id: "{{ vpc_peer.peering_id }}"
+  with_items: "{{ from_rt_ids }}"
 
 - name: Get route tables for to VPC
   ec2_vpc_route_table_facts:
@@ -45,3 +46,4 @@
     routes:
       - dest: "{{ from_vpc_cidr }}"
         gateway_id: "{{ vpc_peer.peering_id }}"
+  with_items: "{{ to_rt_ids }}"
