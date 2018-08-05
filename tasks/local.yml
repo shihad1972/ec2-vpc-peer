@@ -42,5 +42,6 @@
     region: "{{ region }}"
     peering_id: "{{ vpc_peer.peering_id }}"
     state: accept
+    tags: "{{ peer_tags }}"
   register: action_peer
 
