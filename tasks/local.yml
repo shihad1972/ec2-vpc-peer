@@ -1,4 +1,25 @@
 ---
+- name: Get from VPC id
+  ec2_vpc_net_facts:
+    region: "{{ region }}"
+    filters:
+      "tag:Name" : "{{ from_vpc }}"
+  register: from_vpc_facts
+
+- name: Set from VPC id in fact
+  set_fact:
+    from_vpc_id: "{{ from_vpc_facts[0].id }}"
+
+- name: Get to VPC id
+  ec2_vpc_net_facts:
+    region: "{{ region }}"
+    filters:
+      "tag:Name" : "{{ to_vpc }}"
+  register: to_vpc_facts
+
+- name: Set from VPC id in fact
+  set_fact:
+    to_vpc_id: "{{ to_vpc_facts[0].id }}"
 
 - name: Create a local account VPC peering
   ec2_vpc_peer:
