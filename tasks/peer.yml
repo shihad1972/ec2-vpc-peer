@@ -1,0 +1,18 @@
+---
+
+- name: Create a local account VPC peering
+  ec2_vpc_peer:
+    region: "{{ region }}"
+    vpc_id: "{{ from_vpc_id }}"
+    peer_vpc_id: "{{ to_vpc_id }}"
+    state: present
+    tags: "{{ peer_tags }}"
+  register: vpc_peer
+
+- name: Accept local peering request
+  ec2_vpc_peer:
+    region: "{{ region }}"
+    peering_id: "{{ vpc_peer.peering_id }}"
+    state: accept
+  register: action_peer
+

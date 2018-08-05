@@ -1,2 +1,3 @@
 ---
 # tasks file for ec2-vpc-peer
+- import_tasks: peer.yml
