@@ -1,2 +1,4 @@
 ---
 # defaults file for ec2-vpc-peer
+
+peer_type: local

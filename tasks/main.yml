@@ -1,3 +1,4 @@
 ---
 # tasks file for ec2-vpc-peer
-- import_tasks: peer.yml
+- import_tasks: local.yml
+  when: peer_type == 'local'
