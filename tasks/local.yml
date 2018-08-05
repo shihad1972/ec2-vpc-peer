@@ -30,13 +30,6 @@
     tags: "{{ peer_tags }}"
   register: vpc_peer
 
-- name: Tag vpc peering
-  ec2_tag:
-    region: "{{ region }}"
-    resource: "{{ vpc_peer.peering_id }}"
-    state: present
-    tags: "{{ peer_tags }}"
-
 - name: Accept local peering request
   ec2_vpc_peer:
     region: "{{ region }}"

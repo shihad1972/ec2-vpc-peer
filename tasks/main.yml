@@ -2,3 +2,4 @@
 # tasks file for ec2-vpc-peer
 - import_tasks: local.yml
   when: peer_type == 'local'
+- import_tasks: routing.yml

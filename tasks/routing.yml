@@ -1,0 +1,10 @@
+---
+
+- name: Get route tables for from VPC
+  ec2_vpc_route_table_facts:
+    region: "{{ region }}"
+    filters:
+      vpc_id: "{{ from_vpc_id }}"
+  register: from_ec2_table
+
+- debug: var=from_ec2_table
